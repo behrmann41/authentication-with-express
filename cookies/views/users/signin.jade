@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+  .container
+    h1= title
+    .row
+      .col-md-4
+        include errors.jade
+        form(action='/login' method='post')
+          label(for='email') Email
+          input.form-control(type='email' id='email' name='email')
+          label(for='password') Password
+          input.form-control(type='text' id='password' name='password')
+          p
+          input(type='submit' value='login' id='logininbtn')
