@@ -7,21 +7,24 @@ html
   body
     nav.navbar.navbar-default
           .container
-            ul.nav.navbar-nav.navbar-left
-              li
-                a(href='/') Home
             if (!user)
+              ul.nav.navbar-nav.navbar-left
+                li
+                  a(href='/') Home
               ul.nav.navbar-nav.navbar-right
                 li
                   a(href='/login') Login
                 li
-                  a(href='#') Logout
+                  a(href='/signup') Signup
             if (user)
+              ul.nav.navbar-nav.navbar-left
+                li
+                  a(href='/profile') Home
               ul.nav.navbar-nav.navbar-right
                 li
                   a= user
                 li
-                  a(href='#') Logout
+                  a(href='/logout') Logout
 
     block content
 

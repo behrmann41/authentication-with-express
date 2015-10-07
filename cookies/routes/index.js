@@ -5,7 +5,7 @@ var Users = db.get('users')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'My App' });
+  res.render('index', { title: 'My App', user: req.cookies.user });
 });
 
 router.get('/signup', function (req, res, next){
@@ -40,7 +40,7 @@ router.post('/signup', function (req, res, next){
         Users.insert({  user: req.body.email,
                         password: req.body.password
                     })
-        res.redirect('/profile')
+        res.redirect('/login')
       } 
     })
   }
@@ -66,6 +66,11 @@ router.post('/login', function (req, res, next){
       res.render('users/login', { title: 'Sign In', errors: errors})
     }
   })
+})
+
+router.get('/logout', function (req, res, next){
+  res.clearCookie('user')
+  res.redirect('/login')
 })
 
 // router.get('/', function(req, res, next) {
