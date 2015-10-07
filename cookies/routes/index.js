@@ -47,17 +47,23 @@ router.post('/signup', function (req, res, next){
 })
 
 router.get('/login', function (req, res, next){
-  res.render('users/signin', {  title: 'Sign In'})
+  res.render('users/login', {  title: 'Sign In'})
 })
 
 router.post('/login', function (req, res, next){
   var errors = [];
-  Users.find({ $and: [ {user: req.body.email }, {password: req.body.password} ]}, function (err, data) {
-    if (data.length === 0) {
-      errors.push("Invalid Email/Password");
-      res.render('users/signin', { title: 'Sign In', errors: errors})
-    }else {
-      console.log(data)
+  Users.findOne( {user: req.body.email }, function (err, user) {
+    if (user) {
+      if (user.password !== req.body.password){
+        errors.push('Invalid Username / password')
+        res.render('users/login', { title: 'Sign In', errors: errors})
+      } else {
+        res.cookie('user', user.user)
+        res.redirect('/profile')
+      }
+    } else {
+      errors.push('Invalid Username / password')
+      res.render('users/login', { title: 'Sign In', errors: errors})
     }
   })
 })

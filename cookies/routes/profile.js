@@ -6,8 +6,9 @@ var Users = db.get('users')
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.render('users/profile', { title: 'Dashboard', 
-                                success: 'You are logged in now. Rock on!'
-                              })
+                                  success: 'You are logged in now. Rock on!',
+                                  user: req.cookies.user
+                                })
 });
 
 module.exports = router;
