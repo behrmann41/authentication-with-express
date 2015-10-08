@@ -1,0 +1,17 @@
+extends ../layout
+
+block content
+  .container
+    h1= title
+    .row
+      .col-md-3
+        include ../error.jade
+        form(action='/register' method='post')
+          label(for='email') Email
+          input.form-control(type='email' id='email' name='email')
+          label(for='password') Password
+          input.form-control(type='password' id='password' name='password')
+          label(for='passconfirm') Confirm Password
+          input.form-control(type='password' id='passconfirm' name='passconfirm')
+          input(type='submit' id='regbtn' value='Create Account')
+
