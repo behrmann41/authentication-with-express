@@ -2,10 +2,12 @@ var express = require('express');
 var router = express.Router();
 var db = require('monk')('localhost/myapp')
 var Users = db.get('users')
+var bcrypt = require('bcrypt')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'My App', user: req.cookies.user });
+  var username = req.session.user
+  res.render('index', { title: 'My App', user: username });
 });
 
 router.get('/signup', function (req, res, next){
@@ -13,6 +15,7 @@ router.get('/signup', function (req, res, next){
 })
 
 router.post('/signup', function (req, res, next){
+  var hash = bcrypt.hashSync(req.body.password, 10)
   var errors = [];
   if (!req.body.email.trim()) {
     errors.push("Email Can't be blank");
@@ -38,7 +41,7 @@ router.post('/signup', function (req, res, next){
         res.render('users/signup', { title: 'Sign Up', errors: errors})
       } else {
         Users.insert({  user: req.body.email,
-                        password: req.body.password
+                        passwordDigest: hash
                     })
         res.redirect('/login')
       } 
@@ -54,12 +57,12 @@ router.post('/login', function (req, res, next){
   var errors = [];
   Users.findOne( {user: req.body.email }, function (err, user) {
     if (user) {
-      if (user.password !== req.body.password){
+      if (bcrypt.compareSync(req.body.password, user.passwordDigest)){
+        req.session.user = user.user
+        res.redirect('/profile')
+      } else {
         errors.push('Invalid Username / password')
         res.render('users/login', { title: 'Sign In', errors: errors})
-      } else {
-        res.cookie('user', user.user)
-        res.redirect('/profile')
       }
     } else {
       errors.push('Invalid Username / password')
@@ -69,7 +72,7 @@ router.post('/login', function (req, res, next){
 })
 
 router.get('/logout', function (req, res, next){
-  res.clearCookie('user')
+  req.session = null;
   res.redirect('/login')
 })
 
