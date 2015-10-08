@@ -6,7 +6,7 @@ a {
   color: #00B7FF;
 }
 
-#regbtn {
+#regbtn, #loginbtn {
   margin-top: 15px;
 }
 

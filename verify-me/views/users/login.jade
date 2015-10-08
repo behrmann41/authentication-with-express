@@ -6,12 +6,9 @@ block content
     .row
       .col-md-4
         include errors.jade
-        form(action='/register' method='post')
+        form(action='/login' method='post')
           label(for='email') Email
           input.form-control(type='email' id='email' name='email')
           label(for='password') Password
           input.form-control(type='password' id='password' name='password')
-          label(for='passconfirm') Confirm Password
-          input.form-control(type='password' id='passconfirm' name='passconfirm')
-          input(type='submit' id='regbtn' value='Create Account')
-
+          input(type='submit' id='loginbtn' value='Login')
