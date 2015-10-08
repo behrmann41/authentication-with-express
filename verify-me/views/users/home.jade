@@ -3,3 +3,6 @@ extends ../layout
 block content
   .container
     h1= title
+    while message = flash.shift()
+      li.alert(class='alert-success')= message.message
+    img(src='https://fbcdn-photos-c-a.akamaihd.net/hphotos-ak-xaf1/v/t1.0-0/s526x395/263332_537253596326354_61466245_n.jpg?oh=c6129fcf937e5780cd3e16aa14afba7e&oe=569787F7&__gda__=1451755570_f86b12971f251bbc289339a283b96319')

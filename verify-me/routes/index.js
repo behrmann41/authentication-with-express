@@ -56,6 +56,7 @@ router.post('/login', function (req, res, next){
     if (user){
       if (bcrypt.compareSync(req.body.password, user.passwordDigest)){
         req.session.user = user.user
+        req.flash('info','your smokin')
         res.redirect('/home')
       } else {
         errors.push('Invalid Email/Password')
@@ -77,7 +78,5 @@ router.get('/logout', function (req, res, next){
   req.session = null;
   res.redirect('/')
 })
-
-
 
 module.exports = router;
